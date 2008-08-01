@@ -24,5 +24,5 @@ Notes:
   1) each property passed to the :from option must accept a to_s method call
   2) I'm currently using crc32 hashing, since they make for nice tidy URL elements, which requires zlib
 
-Copyright (c) 2008 BrianDoll, released under the MIT license
+Copyright (c) 2008 Brian Doll, released under the MIT license
 
