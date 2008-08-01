@@ -8,16 +8,14 @@ module BrianDoll
 
         unless included_modules.include?(InstanceMethods)
           include InstanceMethods
-
-          validates_uniqueness_of :hash, :case_insensitive => true
-          before_create :create_hash
+          after_validation_on_create :create_encryption_hash
         end
       end
     end
     
     module InstanceMethods      
       private
-      def create_hash
+      def create_encryption_hash
         properties_to_hash = acts_as_hashed_options[:from]
         value_to_hash = ""
         unless properties_to_hash.is_a? Array
@@ -27,7 +25,7 @@ module BrianDoll
             value_to_hash += self.send(prop).to_s
           end
         end
-        self.hash = Zlib.crc32(value_to_hash)
+        self.encryption_hash = Zlib.crc32(value_to_hash)
       end
     end
   end

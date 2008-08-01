@@ -1,0 +1,28 @@
+acts_as_hashed
+==============
+
+Sometimes it's just not OK to expose content from your model into the URL that fetches it.  By default, ActiveRecord uses the model's :id parameter as its param.  There are lots of various SEO slug URL plugins, too.  This is not one of them.  If you can get away with overriding YourModel#to_param, you should.
+
+acts_as_hashed uses encryption to hash one or more properties of your model, and stores that hash with the model.  You can then look up model instances using that encryption_hash property.
+
+A Sample Use Case: (Scratching my own itch)
+I have a Rails application that maintains data that is private to the user that created it.  I would also like to give my users the option of sharing a link to a specific page of their data.  Using IDs and slugs are out, but sharing a link that included an encrypted hash, based on one or more properties of that model, would be a nice way to go.
+
+
+Get it working:
+  1) install this plugin
+  2) create a migration that adds an "encrypted_hash" field to each model you'll be hashing
+  3) rake db:migrate ;)
+  4) add the acts_as_hashed class method to your model like so:
+       acts_as_hashed :from => :date
+         - or -
+       acts_as_hashed :from => [:id, :date, :heading]
+  5) save a new model and check out its encryption hash!
+  6) ModelName.find_by_encryption_hash("321654987") should do the trick
+
+Notes:
+  1) each property passed to the :from option must accept a to_s method call
+  2) I'm currently using crc32 hashing, since they make for nice tidy URL elements, which requires zlib
+
+Copyright (c) 2008 BrianDoll, released under the MIT license
+
