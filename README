@@ -3,7 +3,7 @@ acts_as_hashed
 
 Sometimes it's just not OK to expose content from your model into the URL that fetches it.  By default, ActiveRecord uses the model's :id parameter as its param.  There are lots of various SEO slug URL plugins, too.  This is not one of them.  If you can get away with overriding YourModel#to_param, you should.
 
-acts_as_hashed uses encryption to hash one or more properties of your model, and stores that hash with the model.  You can then look up model instances using that encryption_hash property.
+acts_as_hashed uses a cryptographic hash function to hash one or more properties of your model, and stores that hash with the model.  You can then look up model instances using that encryption_hash property.
 
 A Sample Use Case: (Scratching my own itch)
 I have a Rails application that maintains data that is private to the user that created it.  I would also like to give my users the option of sharing a link to a specific page of their data.  Using IDs and slugs are out, but sharing a link that included an encrypted hash, based on one or more properties of that model, would be a nice way to go.
