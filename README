@@ -11,7 +11,7 @@ I have a Rails application that maintains data that is private to the user that 
 
 Get it working:
   1) install this plugin
-  2) create a migration that adds an "encrypted_hash" field to each model you'll be hashing
+  2) create a migration that adds a "crypto_hash" text field to each model you'll be hashing
   3) rake db:migrate ;)
   4) add the acts_as_hashed class method to your model like so:
        acts_as_hashed :from => :date

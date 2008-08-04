@@ -9,7 +9,7 @@ module BrianDoll
 
         unless included_modules.include?(InstanceMethods)
           include InstanceMethods
-          after_validation_on_create :create_encryption_hash
+          after_validation_on_create :create_crypto_hash
         end
       end
     end
@@ -17,7 +17,7 @@ module BrianDoll
     module InstanceMethods      
       private
 
-      def create_encryption_hash
+      def create_crypto_hash
         properties_to_hash = acts_as_hashed_options[:from]
         value_to_hash = ""
         unless properties_to_hash.is_a? Array
@@ -25,7 +25,7 @@ module BrianDoll
         else
           value_to_hash = properties_to_hash.map { |prop| self.send(prop).to_s }.join
         end
-        self.encryption_hash = Zlib.crc32(value_to_hash)
+        self.crypto_hash = Zlib.crc32(value_to_hash)
       end
 
     end
