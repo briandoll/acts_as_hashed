@@ -12,6 +12,15 @@ module BrianDoll
           after_validation_on_create :create_crypto_hash
         end
       end
+
+      private
+      def rehash!
+        self.all.each do |cat|
+          cat.send("create_crypto_hash")
+          cat.save
+        end    
+      end
+
     end
     
     module InstanceMethods      
