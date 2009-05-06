@@ -2,8 +2,7 @@ module BrianDoll
   module ActsAsHashed
     module HashedMethods
 
-      def acts_as_hashed(options = {})
-        options[:from] ||= :name
+      def acts_as_hashed(options = {})   
         class_inheritable_accessor :acts_as_hashed_options
         self.acts_as_hashed_options = options
 
@@ -24,16 +23,16 @@ module BrianDoll
     end
     
     module InstanceMethods      
+
+      def instantiated_at
+        Time.now.to_i.to_s
+      end
+      
       private
 
       def create_crypto_hash
-        properties_to_hash = acts_as_hashed_options[:from]
-        value_to_hash = ""
-        unless properties_to_hash.is_a? Array
-          value_to_hash = self.send(properties_to_hash).to_s
-        else
-          value_to_hash = properties_to_hash.map { |prop| self.send(prop).to_s }.join
-        end
+        properties_to_hash = acts_as_hashed_options[:from].to_a << :instantiated_at
+        value_to_hash = properties_to_hash.map { |prop| self.send(prop).to_s }.join
         self.crypto_hash = Zlib.crc32(value_to_hash)
       end
 
